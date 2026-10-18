@@ -32,8 +32,11 @@
                                 <div class="ticket-header">
                                     <h3 class="ticket-name"><%= ticket.name %></h3>
                                     <div class="ticket-price">
-                                        <span class="price-symbol">¥</span>
-                                        <span class="price-amount"><%= Number(ticket.price).toLocaleString() %></span>
+                                        <span class="price-symbol">$</span>
+                                        <span class="price-amount"><%= Number(ticket.price).toLocaleString('en-US', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        }) %></span>
                                     </div>
                                 </div>
                                 
@@ -162,7 +165,7 @@
             <div class="summary-content">
                 <div class="summary-row">
                     <span class="summary-label">Selected Ticket:</span>
-                    <span class="summary-value" id="selectedTicketName"><%= ticketOptions && ticketOptions[0] ? ticketOptions[0].name : 'Standard Class' %></span>
+                    <span class="summary-value" id="selectedTicketName"><%= ticketOptions && ticketOptions[1] ? ticketOptions[1].name : 'Standard Class' %></span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Number of Passengers:</span>
@@ -170,11 +173,17 @@
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Price per Ticket:</span>
-                    <span class="summary-value" id="pricePerTicket"><%= ticketOptions && ticketOptions[0] ? '¥' + Number(ticketOptions[0].price).toLocaleString() : '¥14,400' %></span>
+                    <span class="summary-value" id="pricePerTicket"><%= ticketOptions && ticketOptions[1] ? '$' + Number(ticketOptions[1].price).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) : '$14,400' %></span>
                 </div>
                 <div class="summary-row total">
                     <span class="summary-label">Total Amount:</span>
-                    <span class="summary-value" id="totalAmount"><%= ticketOptions && ticketOptions[0] ? '¥' + Number(ticketOptions[0].price).toLocaleString() : '¥14,400' %></span>
+                    <span class="summary-value" id="totalAmount"><%= ticketOptions && ticketOptions[1] ? '$' + Number(ticketOptions[1].price).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) : '$14,400' %></span>
                 </div>
             </div>
         </section>
@@ -204,9 +213,16 @@
 
     const updateSummary = () => {
         passengerCountDisplay.textContent = passengerCount;
-        pricePerTicket.textContent = `¥${ticketPrice.toLocaleString()}`;
-        const total = ticketPrice * passengerCount;
-        totalAmount.textContent = `¥${total.toLocaleString()}`;
+        pricePerTicket.textContent = `$${ticketPrice.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+
+    const total = ticketPrice * passengerCount;
+    totalAmount.textContent = `$${total.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
     };
 
     const updatePassengerNumbers = () => {
@@ -431,7 +447,7 @@
 
             // Update summary
             const ticketName = e.target.dataset.name;
-            ticketPrice = parseInt(e.target.dataset.price);
+            ticketPrice = Number(e.target.dataset.price);
             
             selectedTicketName.textContent = ticketName;
             updateSummary();
@@ -448,7 +464,7 @@
     if (selectedRadio) {
         const ticketName = selectedRadio.dataset.name;
         selectedTicketName.textContent = ticketName;
-        ticketPrice = parseInt(selectedRadio.dataset.price);
+        ticketPrice = Number.parseInt(selectedRadio.dataset.price);
     }
     updateSummary();
 </script>

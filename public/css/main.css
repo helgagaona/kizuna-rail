@@ -11,7 +11,9 @@
 @import 'utilities/routes.css' layer(utilities);
 @import 'utilities/scenarios.css' layer(utilities);
 
+
 @import 'components/content-grid.css' layer(components);
 @import 'components/columns-grid.css' layer(components);
 
 @import 'layout/all-layouts.css' layer(layout);
+@import 'layout/print.css' layer(layout);
